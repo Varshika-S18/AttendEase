@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AttendEase – Classroom Attendance</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0e1638;--navy2:#1a2766;--blue:#2563eb;--green:#10b981;--amber:#f59e0b;--violet:#7c3aed;--red:#ef4444;--bg:#eef3fa;--text:#0f172a;--muted:#64748b;--line:#e5eaf3}
+*{box-sizing:border-box;margin:0;font-family:'Plus Jakarta Sans',system-ui,Segoe UI,Arial,sans-serif}
+body{background:var(--bg);color:var(--text);display:flex;min-height:100vh;font-size:14px}
+aside{width:232px;flex:none;background:linear-gradient(180deg,var(--navy),var(--navy2));color:#cbd5e1;padding:18px 14px;display:flex;flex-direction:column;position:sticky;top:0;height:100vh}
+.brand{display:flex;gap:10px;align-items:center;color:#fff;font-weight:800;font-size:16px;margin-bottom:26px}
+.logo{width:38px;height:38px;border-radius:10px;background:var(--blue);display:grid;place-items:center;font-size:20px}
+nav button{display:flex;gap:10px;align-items:center;width:100%;padding:11px 12px;border:0;background:none;color:#cbd5e1;font-size:14px;font-weight:500;border-radius:9px;cursor:pointer;text-align:left;margin-bottom:4px}
+nav button:hover{background:rgba(255,255,255,.07)}nav button.on{background:#2451b8;color:#fff}
+.foot{margin-top:auto;text-align:center;font-size:12px;color:#94a3b8;padding:14px 6px;border-top:1px solid rgba(255,255,255,.1)}
+main{flex:1;min-width:0}
+.hero{height:190px;position:relative;background-size:cover;background-position:center bottom;color:#fff;padding:26px 30px;display:flex;flex-direction:column;justify-content:flex-end}
+.hero:before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(8,14,40,.88) 0%,rgba(8,14,40,.55) 55%,rgba(8,14,40,.1))}
+.hero>*{position:relative}.hero h1{font-size:30px;font-weight:800;line-height:1.15}.hero p{margin-top:8px;opacity:.9}
+.top{position:absolute!important;top:16px;right:22px;display:flex;gap:10px;align-items:center}
+.pill{background:rgba(15,23,42,.6);border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:6px 12px;font-size:12px;color:#fff;display:flex;gap:7px;align-items:center;cursor:pointer}
+.dot{width:8px;height:8px;border-radius:50%;background:#94a3b8}.dot.ok{background:#22c55e}.dot.bad{background:var(--red)}
+.wrap{padding:16px 22px 30px;display:grid;gap:16px}
+.grid{display:grid;gap:16px}.g4{grid-template-columns:repeat(4,1fr)}.g3{grid-template-columns:1.3fr 1fr 1fr}.g2{grid-template-columns:1.4fr 1fr}.g21{grid-template-columns:1fr 1.5fr}
+.card{background:#fff;border-radius:14px;padding:18px;box-shadow:0 2px 10px rgba(30,50,100,.06);min-width:0}
+.card h3{font-size:15px;font-weight:700;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.stat{display:flex;gap:14px;align-items:center}.ico{width:54px;height:54px;border-radius:50%;display:grid;place-items:center;font-size:24px;color:#fff;flex:none}
+.stat b{font-size:30px;display:block;line-height:1.1}.stat small,.muted{color:var(--muted);font-size:12px}
+.act{display:flex;gap:12px;align-items:center;padding:12px;border-radius:10px;margin-bottom:10px;border:1px solid var(--line);cursor:pointer;width:100%;background:none;text-align:left}
+.act:hover{filter:brightness(.97)}.act b{display:block;font-size:13px}.act .ico{width:38px;height:38px;font-size:18px}
+table{width:100%;border-collapse:collapse}th{background:#f4f7fc;text-align:left;font-size:12px;color:var(--muted);padding:10px;font-weight:600}
+td{padding:10px;border-bottom:1px solid var(--line)}tr:last-child td{border:0}.tw{overflow-x:auto}
+.badge{display:inline-block;padding:3px 10px;border-radius:12px;font-size:12px;font-weight:600}
+.b-ok{background:#d1fae5;color:#047857}.b-bad{background:#fee2e2;color:#b91c1c}.b-warn{background:#fef3c7;color:#b45309}.b-info{background:#dbeafe;color:#1d4ed8}
+.bar{height:8px;background:#e8edf6;border-radius:6px;overflow:hidden;min-width:70px}.bar i{display:block;height:100%;border-radius:6px}
+.empty{text-align:center;padding:26px 10px;color:var(--muted)}.empty .ico{background:#eef2fa;color:#94a3b8;margin:0 auto 10px}
+input,select,textarea{width:100%;padding:10px 12px;border:1px solid #d5dcea;border-radius:9px;font-size:14px;background:#fff}
+input:focus,select:focus,textarea:focus,button:focus-visible{outline:2px solid var(--blue);outline-offset:1px}
+label{display:block;font-size:12px;font-weight:600;color:#334155;margin-bottom:5px}.f{display:grid;gap:12px}.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.btn{border:0;border-radius:9px;padding:10px 16px;font-weight:600;font-size:14px;cursor:pointer;background:var(--blue);color:#fff}
+.btn.sec{background:#eef2fa;color:#1e3a8a}.btn.sm{padding:6px 11px;font-size:12px}.btn.ok{background:var(--green)}.btn.bad{background:var(--red)}
+.tools{display:flex;gap:10px;flex-wrap:wrap;align-items:end;margin-bottom:14px}.tools>div{min-width:130px}
+.seg{display:inline-flex;border:1px solid #d5dcea;border-radius:9px;overflow:hidden}.seg button{border:0;background:#fff;padding:6px 14px;cursor:pointer;font-weight:600;color:var(--muted)}
+.seg button.p.on{background:var(--green);color:#fff}.seg button.a.on{background:var(--red);color:#fff}
+.sess{padding:11px 12px;border:1px solid var(--line);border-radius:10px;margin-bottom:8px;cursor:pointer;display:flex;justify-content:space-between;gap:10px}
+.sess:hover,.sess.on{border-color:var(--blue);background:#f5f8ff}
+.ring{width:84px;height:84px;border-radius:50%;display:grid;place-items:center;flex:none}.ring span{width:64px;height:64px;background:#fff;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:16px}
+.tip{display:flex;gap:9px;margin-bottom:12px;font-size:13px;color:#334155}.tip:before{content:"✓";color:var(--green);font-weight:800}
+#toast{position:fixed;bottom:22px;right:22px;display:grid;gap:8px;z-index:60}
+.t{background:#0f172a;color:#fff;padding:12px 16px;border-radius:10px;max-width:340px;box-shadow:0 6px 20px rgba(0,0,0,.25)}.t.e{background:#b91c1c}.t.s{background:#047857}
+.modal{position:fixed;inset:0;background:rgba(10,15,40,.55);display:grid;place-items:center;z-index:50;padding:16px}.modal .card{width:min(440px,100%)}
+@media(max-width:1100px){.g4{grid-template-columns:1fr 1fr}.g3,.g2,.g21{grid-template-columns:1fr}}
+@media(max-width:720px){body{flex-direction:column}aside{width:100%;height:auto;position:static;flex-direction:row;overflow-x:auto;padding:8px}.brand,.foot{display:none}nav{display:flex}nav button{white-space:nowrap;width:auto}.hero h1{font-size:22px}.g4,.row{grid-template-columns:1fr}.top{display:none!important}}
+</style></head><body>
+<aside><div class="brand"><div class="logo">🎓</div><div>AttendEase<br><small style="font-weight:500;color:#94a3b8;font-size:11px">Attendance manager</small></div></div>
+<nav id="nav"></nav><div class="foot">Paper sheets out,<br>accurate eligibility in.</div></aside>
+<main><div class="hero" id="hero"><div class="top"><div class="pill" id="conn" title="Change connection settings"><span class="dot" id="dot"></span><span id="ctext">Connecting…</span></div><div class="pill" id="role">👤 Faculty ▾</div></div>
+<h1>Classroom Attendance<br>and Eligibility Tracker</h1><p>Mark each session, track every student's percentage, catch shortages early.</p></div>
+<div class="wrap" id="view"></div></main><div id="toast"></div>
+<script>
+const $=s=>document.querySelector(s),e=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const ls={get:(k,d)=>{try{return localStorage.getItem(k)??d}catch(x){return d}},set:(k,v)=>{try{localStorage.setItem(k,v)}catch(x){}}};
+let BASE=ls.get('ae_base',(location.protocol.startsWith('http')&&location.port==='8080')?'':'http://localhost:8080');
+let KEY=ls.get('ae_key','faculty123'),TH=+ls.get('ae_th',75),TOKEN=ls.get('ae_tok','');
+const S={students:[],sessions:[],sums:[],short:[],sel:null,filter:''};
+const svg=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMax slice"><defs><linearGradient id="s" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1e2a5e"/><stop offset=".55" stop-color="#e2735b"/><stop offset="1" stop-color="#f6b866"/></linearGradient><pattern id="w" width="26" height="30" patternUnits="userSpaceOnUse"><rect x="6" y="6" width="12" height="16" fill="#ffd98a" opacity=".85"/></pattern></defs><rect width="1200" height="300" fill="url(#s)"/><circle cx="930" cy="230" r="60" fill="#ffe3a3" opacity=".6"/><rect x="560" y="120" width="560" height="140" fill="#1b2350"/><rect x="560" y="120" width="560" height="140" fill="url(#w)"/><rect x="800" y="40" width="70" height="220" fill="#232c63"/><rect x="800" y="40" width="70" height="220" fill="url(#w)" opacity=".7"/><polygon points="796,40 835,8 874,40" fill="#141a44"/><circle cx="835" cy="70" r="16" fill="#f8e7b5"/><rect x="200" y="160" width="340" height="100" fill="#171d47"/><rect x="200" y="160" width="340" height="100" fill="url(#w)" opacity=".6"/><g fill="#0d1a33"><circle cx="130" cy="225" r="34"/><circle cx="1160" cy="222" r="38"/><circle cx="530" cy="232" r="26"/><rect x="0" y="255" width="1200" height="45"/></g><rect x="0" y="268" width="1200" height="4" fill="#f6b866" opacity=".5"/></svg>`;
+$('#hero').style.backgroundImage=`url(hero.jpg),url("data:image/svg+xml,${encodeURIComponent(svg)}")`;
+const pages=[['dash','🏠','Dashboard'],['stu','👥','Students'],['att','📝','Mark Attendance'],['rep','📊','Reports'],['me','🎓','Student View']];
+$('#nav').innerHTML=pages.map(p=>`<button data-p="${p[0]}">${p[1]} ${p[2]}</button>`).join('');
+$('#nav').onclick=x=>{const b=x.target.closest('button');if(b)go(b.dataset.p)};
+function toast(m,t=''){const d=document.createElement('div');d.className='t '+t;d.textContent=m;$('#toast').append(d);setTimeout(()=>d.remove(),4200)}
+async function api(path,o={},student){
+  const h={'Content-Type':'application/json'};if(student)h['X-Student-Token']=student;else h['X-API-Key']=KEY;
+  let r;try{r=await fetch(BASE+path,{...o,headers:h})}catch(x){throw new Error('Cannot reach the backend at '+(BASE||location.origin)+'. Is it running?')}
+  const j=await r.json().catch(()=>null);if(!r.ok)throw new Error(j?.message||('Request failed ('+r.status+')'));return j}
+const call=async(f)=>{try{return await f()}catch(x){toast(x.message,'e')}};
+const pc=p=>p>=TH?'var(--green)':p>=TH-15?'var(--amber)':'var(--red)';
+const bar=p=>`<div class="bar"><i style="width:${p}%;background:${pc(p)}"></i></div>`;
+const fl=p=>p?'<span class="badge b-bad">Shortage</span>':'<span class="badge b-ok">Eligible</span>';
+const empty=(i,t,s)=>`<div class="empty"><div class="ico">${i}</div><b>${t}</b><div class="muted">${s}</div></div>`;
+const subjects=()=>[...new Map(S.sessions.map(s=>[s.subjectCode,s.subjectName]))];
+async function refresh(){
+  try{S.students=await api('/api/students');S.sessions=await api('/api/sessions');
+    S.sums=(await Promise.all(subjects().map(([c])=>api(`/api/reports/subjects/${encodeURIComponent(c)}/summary?threshold=${TH}`)))).flat();
+    S.short=S.sums.filter(x=>x.shortage);$('#dot').className='dot ok';$('#ctext').textContent='Backend connected';return true}
+  catch(x){$('#dot').className='dot bad';$('#ctext').textContent=/401|API-Key|Unauthorized/i.test(x.message)?'Faculty key rejected':'Backend offline';toast(x.message,'e');return false}}
+async function go(p){document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.p===p));
+  if(p!=='me')await refresh();V[p]()}
+const V={};
+V.dash=()=>{const avg=S.sums.length?(S.sums.reduce((a,x)=>a+x.percentage,0)/S.sums.length).toFixed(1):0;
+  const subs=subjects().map(([c,n])=>{const l=S.sums.filter(x=>x.subjectCode===c),a=l.length?l.reduce((s,x)=>s+x.percentage,0)/l.length:0;return `<div style="margin-bottom:14px"><div style="display:flex;justify-content:space-between"><b>${e(c)}</b><span class="muted">${e(n)} · ${a.toFixed(1)}%</span></div>${bar(a)}</div>`}).join('');
+  const st=[['👥','#2563eb','Total Students',S.students.length,'Registered students'],['📝','#10b981','Total Sessions',S.sessions.length,'Class sessions created'],['📊','#7c3aed','Average Attendance',avg+'%','Across all subjects'],['⚠️','#f59e0b','Below '+TH+'%',S.short.length,'Student-subject shortages']];
+  $('#view').innerHTML=`<div class="grid g4">${st.map(s=>`<div class="card stat"><div class="ico" style="background:${s[1]}">${s[0]}</div><div><small><b style="font-size:14px;display:inline">${s[2]}</b></small><b>${s[3]}</b><small>${s[4]}</small></div></div>`).join('')}</div>
+  <div class="grid g3"><div class="card"><h3>Recent Sessions <a class="btn sm sec" onclick="go('att')">View all</a></h3><div class="tw">${S.sessions.length?`<table><tr><th>Date</th><th>Subject</th><th>Period</th><th>Topic</th></tr>${S.sessions.slice(0,6).map(s=>`<tr><td>${e(s.sessionDate)}</td><td>${e(s.subjectCode)}</td><td>${s.period}</td><td>${e(s.topic||'—')}</td></tr>`).join('')}</table>`:empty('📝','No sessions yet','Create a session to start marking attendance.')}</div></div>
+  <div class="card"><h3>Subject Attendance</h3>${subs||empty('📊','No attendance data yet','Mark a session to see percentages.')}</div>
+  <div class="card"><h3>Quick Actions</h3>
+  <button class="act" style="background:#f2f6ff" onclick="go('stu')"><div class="ico" style="background:#2563eb">👤</div><span><b>Add Student</b><small class="muted">Register and get access token</small></span></button>
+  <button class="act" style="background:#f0fbf6" onclick="go('att')"><div class="ico" style="background:#10b981">📝</div><span><b>Mark Attendance</b><small class="muted">Create session, mark present/absent</small></span></button>
+  <button class="act" style="background:#f6f2ff" onclick="go('rep')"><div class="ico" style="background:#7c3aed">📊</div><span><b>Shortage Report</b><small class="muted">Who is below the threshold</small></span></button></div></div>
+  <div class="grid g2"><div class="card"><h3>Students Below ${TH}%</h3><div class="tw">${S.short.length?`<table><tr><th>Roll No</th><th>Name</th><th>Subject</th><th>Attendance</th></tr>${S.short.slice(0,6).map(x=>`<tr><td>${e(x.rollNo)}</td><td>${e(x.studentName)}</td><td>${e(x.subjectCode)}</td><td><span class="badge b-bad">${x.percentage}%</span></td></tr>`).join('')}</table>`:empty('✅','No shortages','Every student meets the minimum attendance.')}</div></div>
+  <div class="card"><h3>How it works</h3><div class="tip">Each student is marked once per session; later changes go through Correct, which keeps an audit trail.</div><div class="tip">Percentage = present ÷ sessions recorded × 100.</div><div class="tip">Shortage is flagged when the percentage falls below the threshold (${TH}% now, change it in Reports).</div><div class="tip">Students see only their own record in Student View.</div></div></div>`};
+V.stu=()=>{$('#view').innerHTML=`<div class="grid g21"><div class="card"><h3>Register Student</h3><div class="f"><div><label>Roll number</label><input id="rn"></div><div><label>Full name</label><input id="nm"></div><div><label>Email</label><input id="em" type="email"></div><div><label>Department</label><input id="dp"></div><button class="btn" id="sv">Register student</button><div id="tk"></div></div></div>
+  <div class="card"><h3>Students (${S.students.length})</h3><div class="tw">${S.students.length?`<table><tr><th>Roll No</th><th>Name</th><th>Email</th><th>Dept</th><th>Attendance</th></tr>${S.students.map(s=>{const l=S.sums.filter(x=>x.studentId===s.id),sh=l.some(x=>x.shortage);return `<tr><td>${e(s.rollNo)}</td><td>${e(s.name)}</td><td>${e(s.email)}</td><td>${e(s.department||'—')}</td><td>${l.length?fl(sh):'<span class="muted">No data</span>'}</td></tr>`}).join('')}</table>`:empty('👥','No students yet','Register your first student.')}</div></div></div>`;
+  $('#sv').onclick=()=>call(async()=>{const r=await api('/api/students',{method:'POST',body:JSON.stringify({rollNo:$('#rn').value.trim(),name:$('#nm').value.trim(),email:$('#em').value.trim(),department:$('#dp').value.trim()||null})});
+    toast('Student registered','s');await refresh();V.stu();$('#tk').innerHTML=`<div class="badge b-warn" style="display:block;padding:10px;border-radius:9px;margin-top:6px">Access token for ${e(r.name)} (shown once):<br><b style="user-select:all;word-break:break-all">${e(r.accessToken)}</b></div>`})}
+V.att=async()=>{const sub=subjects(),list=S.sessions.filter(s=>!S.filter||s.subjectCode===S.filter);
+  $('#view').innerHTML=`<div class="grid g21"><div style="display:grid;gap:16px;align-content:start"><div class="card"><h3>New Session</h3><div class="f">
+  <div class="row"><div><label>Subject code</label><input id="sc" list="sl" placeholder="CS101"></div><div><label>Subject name</label><input id="sn"></div></div><datalist id="sl">${sub.map(s=>`<option value="${e(s[0])}">`).join('')}</datalist>
+  <div><label>Faculty name</label><input id="fn"></div><div class="row"><div><label>Date</label><input id="dt" type="date" value="${new Date().toLocaleDateString('en-CA')}"></div><div><label>Period (1–12)</label><input id="pd" type="number" min="1" max="12" value="1"></div></div>
+  <div><label>Topic (optional)</label><input id="tp"></div><button class="btn" id="cs">Create session</button></div></div>
+  <div class="card"><h3>Sessions <select id="fs" style="width:auto"><option value="">All subjects</option>${sub.map(s=>`<option ${S.filter===s[0]?'selected':''}>${e(s[0])}</option>`).join('')}</select></h3>
+  ${list.length?list.map(s=>`<div class="sess ${S.sel===s.id?'on':''}" data-id="${s.id}"><div><b>${e(s.subjectCode)}</b> · ${e(s.sessionDate)}<br><span class="muted">Period ${s.period} · ${e(s.topic||s.subjectName)}</span></div><span class="badge b-info">Open</span></div>`).join(''):empty('📝','No sessions','Create one to begin.')}</div></div>
+  <div class="card" id="mk">${empty('👈','Select a session','Pick a session to mark or correct attendance.')}</div></div>`;
+  $('#sc').onchange=()=>{const m=sub.find(s=>s[0]===$('#sc').value);if(m)$('#sn').value=m[1]};
+  $('#fs').onchange=x=>{S.filter=x.target.value;V.att()};
+  document.querySelectorAll('.sess').forEach(d=>d.onclick=()=>{S.sel=+d.dataset.id;V.att()});
+  $('#cs').onclick=()=>call(async()=>{const r=await api('/api/sessions',{method:'POST',body:JSON.stringify({subjectCode:$('#sc').value.trim(),subjectName:$('#sn').value.trim(),facultyName:$('#fn').value.trim(),sessionDate:$('#dt').value,period:+$('#pd').value,topic:$('#tp').value.trim()||null})});
+    toast('Session created','s');await refresh();S.sel=r.id;V.att()});
+  if(S.sel)openSession()};
+async function openSession(){const s=S.sessions.find(x=>x.id===S.sel);if(!s)return;
+  const recs=await call(()=>api(`/api/sessions/${s.id}/attendance`))||[],done=new Map(recs.map(r=>[r.studentId,r])),todo=S.students.filter(x=>!done.has(x.id));
+  $('#mk').innerHTML=`<h3>${e(s.subjectCode)} · ${e(s.sessionDate)} · Period ${s.period}<span class="badge b-info">${recs.length}/${S.students.length} marked</span></h3>
+  ${todo.length?`<div class="tools"><button class="btn sm ok" id="ap">All present</button><button class="btn sm bad" id="aa">All absent</button></div>`:''}
+  <div class="tw"><table><tr><th>Roll No</th><th>Name</th><th>Status</th></tr>${S.students.map(x=>{const r=done.get(x.id);return `<tr><td>${e(x.rollNo)}</td><td>${e(x.name)}</td><td>${r?`<span class="badge ${r.status==='PRESENT'?'b-ok':'b-bad'}">${r.status}</span>${r.corrected?` <span class="badge b-warn" title="${e(r.correctionRemark)}">Corrected from ${r.previousStatus}</span>`:''} <button class="btn sm sec" data-c="${x.id}">Correct</button>`:`<span class="seg" data-s="${x.id}"><button class="p on">Present</button><button class="a">Absent</button></span>`}</td></tr>`}).join('')}</table></div>
+  ${todo.length?`<button class="btn" id="sa" style="margin-top:14px">Save attendance (${todo.length})</button>`:'<p class="muted" style="margin-top:12px">Everyone is marked. Use Correct to change an entry.</p>'}`;
+  document.querySelectorAll('.seg').forEach(g=>g.onclick=x=>{const b=x.target.closest('button');if(!b)return;g.querySelectorAll('button').forEach(k=>k.classList.toggle('on',k===b))});
+  const all=c=>document.querySelectorAll('.seg').forEach(g=>g.querySelector('.'+c).click());
+  if($('#ap')){$('#ap').onclick=()=>all('p');$('#aa').onclick=()=>all('a')}
+  if($('#sa'))$('#sa').onclick=()=>call(async()=>{const records=[...document.querySelectorAll('.seg')].map(g=>({studentId:+g.dataset.s,status:g.querySelector('.p.on')?'PRESENT':'ABSENT'}));
+    await api(`/api/sessions/${s.id}/attendance`,{method:'POST',body:JSON.stringify({records})});toast('Attendance saved','s');await refresh();openSession()});
+  document.querySelectorAll('[data-c]').forEach(b=>b.onclick=()=>correct(s,done.get(+b.dataset.c)))}
+function correct(s,r){const m=document.createElement('div');m.className='modal';const nw=r.status==='PRESENT'?'ABSENT':'PRESENT';
+  m.innerHTML=`<div class="card"><h3>Correct entry</h3><p class="muted" style="margin-bottom:12px">${e(r.studentName)} (${e(r.rollNo)}) · ${e(s.sessionDate)} · currently ${r.status}</p><div class="f"><div><label>New status</label><select id="ns"><option ${nw==='PRESENT'?'selected':''}>PRESENT</option><option ${nw==='ABSENT'?'selected':''}>ABSENT</option></select></div><div><label>Reason (3–300 characters)</label><textarea id="rm" rows="3"></textarea></div><div style="display:flex;gap:10px;justify-content:flex-end"><button class="btn sec" id="x">Cancel</button><button class="btn" id="ok">Save correction</button></div></div></div>`;
+  document.body.append(m);m.querySelector('#x').onclick=()=>m.remove();
+  m.querySelector('#ok').onclick=()=>call(async()=>{await api(`/api/sessions/${s.id}/attendance/${r.studentId}`,{method:'PATCH',body:JSON.stringify({status:$('#ns').value,remark:$('#rm').value.trim()})});m.remove();toast('Correction saved','s');await refresh();openSession()})}
+V.rep=()=>{const sub=subjects();let cur=sub[0]?.[0]||'',only=false;
+  $('#view').innerHTML=`<div class="card"><h3>Attendance Report</h3><div class="tools"><div><label>Subject</label><select id="rs"><option value="">All subjects</option>${sub.map(s=>`<option ${s[0]===cur?'selected':''} value="${e(s[0])}">${e(s[0])} – ${e(s[1])}</option>`).join('')}</select></div>
+  <div><label>Minimum attendance %</label><input id="th" type="number" min="0" max="100" value="${TH}"></div><div><label>Show</label><select id="ro"><option value="0">All students</option><option value="1">Shortage only</option></select></div><button class="btn sec" id="ex">Export CSV</button></div><div class="tw" id="rt"></div></div>`;
+  const draw=()=>{let l=S.sums.filter(x=>(!cur||x.subjectCode===cur)&&(!only||x.shortage));
+    $('#rt').innerHTML=l.length?`<table><tr><th>Roll No</th><th>Name</th><th>Subject</th><th>Present / Total</th><th style="width:22%">Attendance</th><th>Status</th></tr>${l.map(x=>`<tr><td>${e(x.rollNo)}</td><td>${e(x.studentName)}</td><td>${e(x.subjectCode)}</td><td>${x.present} / ${x.totalSessions}</td><td style="display:flex;gap:8px;align-items:center">${bar(x.percentage)}<b>${x.percentage}%</b></td><td>${fl(x.shortage)}</td></tr>`).join('')}</table>`:empty('📊','Nothing to show','No records match these filters.');return l};
+  draw();$('#rs').onchange=x=>{cur=x.target.value;draw()};$('#ro').onchange=x=>{only=x.target.value==='1';draw()};
+  $('#th').onchange=async x=>{TH=Math.min(100,Math.max(0,+x.target.value||75));ls.set('ae_th',TH);await refresh();draw()};
+  $('#ex').onclick=()=>{const l=draw(),c=[['Roll No','Name','Subject','Present','Total','Percentage','Status'],...l.map(x=>[x.rollNo,x.studentName,x.subjectCode,x.present,x.totalSessions,x.percentage,x.shortage?'Shortage':'Eligible'])].map(r=>r.map(v=>`"${v}"`).join(',')).join('\n');
+    const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([c],{type:'text/csv'}));a.download='attendance-report.csv';a.click()}};
+V.me=()=>{$('#view').innerHTML=`<div class="card"><h3>My Attendance</h3><div class="tools"><div style="flex:1;max-width:380px"><label>Your student access token</label><input id="tk" value="${e(TOKEN)}" placeholder="Paste the token you were given"></div><button class="btn" id="ld">View my attendance</button></div><div id="mo">${empty('🎓','Enter your token','You will only see your own attendance.')}</div></div>`;
+  const load=()=>call(async()=>{TOKEN=$('#tk').value.trim();ls.set('ae_tok',TOKEN);const d=await api('/api/me/attendance',{},TOKEN);
+    $('#mo').innerHTML=`<p style="margin-bottom:14px"><b style="font-size:17px">${e(d.student.name)}</b> <span class="muted">${e(d.student.rollNo)} · ${e(d.student.department||'')}</span></p>
+    <div class="grid g3" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr));margin-bottom:18px">${d.subjects.map(x=>`<div class="card stat" style="border:1px solid var(--line);box-shadow:none"><div class="ring" style="background:conic-gradient(${pc(x.percentage)} ${x.percentage*3.6}deg,#e8edf6 0)"><span>${x.percentage}%</span></div><div><b style="font-size:16px">${e(x.subjectCode)}</b><small>${e(x.subjectName)}</small><br><small>${x.present} present · ${x.absent} absent</small><br>${fl(x.shortage)}</div></div>`).join('')||empty('📊','No records yet','Nothing has been marked for you.')}</div>
+    ${d.records.length?`<div class="tw"><table><tr><th>Date</th><th>Subject</th><th>Period</th><th>Status</th><th>Note</th></tr>${d.records.map(r=>`<tr><td>${e(r.sessionDate)}</td><td>${e(r.subjectCode)}</td><td>${r.period}</td><td><span class="badge ${r.status==='PRESENT'?'b-ok':'b-bad'}">${r.status}</span></td><td class="muted">${r.corrected?`Corrected from ${r.previousStatus}: ${e(r.correctionRemark)}`:''}</td></tr>`).join('')}</table></div>`:''}`});
+  $('#ld').onclick=load;if(TOKEN)load()};
+function settings(){const m=document.createElement('div');m.className='modal';
+  m.innerHTML=`<div class="card"><h3>Connection settings</h3><div class="f"><div><label>Backend URL (empty = same server)</label><input id="bu" value="${e(BASE)}" placeholder="http://localhost:8080"></div><div><label>Faculty API key (X-API-Key)</label><input id="ky" type="password" value="${e(KEY)}"></div><div style="display:flex;gap:10px;justify-content:flex-end"><button class="btn sec" id="x">Cancel</button><button class="btn" id="ok">Save and reconnect</button></div></div></div>`;
+  document.body.append(m);m.querySelector('#x').onclick=()=>m.remove();
+  m.querySelector('#ok').onclick=()=>{BASE=$('#bu').value.trim().replace(/\/$/,'');KEY=$('#ky').value;ls.set('ae_base',BASE);ls.set('ae_key',KEY);m.remove();go('dash')}}
+$('#conn').onclick=settings;$('#role').onclick=settings;go('dash');
+</script></body></html>
